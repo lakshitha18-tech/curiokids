@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Zone - CurioKids</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background-image: url("/static/images/back1.jpg");
+            background-size: cover;
+            background-position: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff9800;
+        }
+
+        form {
+            max-width: 700px;
+            margin: auto;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .question {
+            margin-bottom: 25px;
+        }
+
+        .question h3 {
+            color: #e65100;
+        }
+
+        .option {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        button {
+            background-color: #ff9800;
+            color: white;
+            font-size: 18px;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #score-box {
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz Time!</h1>
+    <form id="quizForm">
+        <div class="question">
+            <h3>1. What is the capital of India?</h3>
+            <label class="option"><input type="radio" name="q1" value="a"> Mumbai</label>
+            <label class="option"><input type="radio" name="q1" value="b"> Delhi</label>
+            <label class="option"><input type="radio" name="q1" value="c"> Kolkata</label>
+        </div>
+
+        <div class="question">
+            <h3>2. Which animal is known as the king of the jungle?</h3>
+            <label class="option"><input type="radio" name="q2" value="a"> Tiger</label>
+            <label class="option"><input type="radio" name="q2" value="b"> Lion</label>
+            <label class="option"><input type="radio" name="q2" value="c"> Elephant</label>
+        </div>
+
+        <div class="question">
+            <h3>3. What color is a ripe banana?</h3>
+            <label class="option"><input type="radio" name="q3" value="a"> Red</label>
+            <label class="option"><input type="radio" name="q3" value="b"> Yellow</label>
+            <label class="option"><input type="radio" name="q3" value="c"> Green</label>
+        </div>
+
+        <div class="question">
+            <h3>4. How many legs does a spider have?</h3>
+            <label class="option"><input type="radio" name="q4" value="a"> Six</label>
+            <label class="option"><input type="radio" name="q4" value="b"> Eight</label>
+            <label class="option"><input type="radio" name="q4" value="c"> Ten</label>
+        </div>
+
+        <div class="question">
+            <h3>5. What do bees produce?</h3>
+            <label class="option"><input type="radio" name="q5" value="a"> Honey</label>
+            <label class="option"><input type="radio" name="q5" value="b"> Milk</label>
+            <label class="option"><input type="radio" name="q5" value="c"> Juice</label>
+        </div>
+
+        <button type="button" onclick="checkAnswers()">Submit</button>
+    </form>
+
+    <div id="score-box"></div>
+
+    <script>
+        function checkAnswers() {
+            let score = 0;
+
+            const answers = {
+                q1: "b", // Delhi
+                q2: "b", // Lion
+                q3: "b", // Yellow
+                q4: "b", // Eight
+                q5: "a"  // Honey
+            };
+
+            for (let q in answers) {
+                const selected = document.querySelector('input[name="' + q + '"]:checked');
+                if (selected && selected.value === answers[q]) {
+                    score += 1;
+                }
+            }
+
+            const total = Object.keys(answers).length;
+            document.getElementById("score-box").innerText = `You scored ${score} out of ${total}!`;
+        }
+    </script>
+</body>
+</html>

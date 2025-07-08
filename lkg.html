@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LKG Grade Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{% static 'images/back1.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            text-align: center;
+            padding: 50px;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #ff6f61;
+            font-size: 36px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            color: #ff6f61;
+            margin: 10px 0 5px 0;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        #item-container {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .item-button {
+            font-size: 24px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            background-color: #fffbe6;
+            border: 2px solid #ff6f61;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .item-button:hover {
+            background-color: #ffe0cc;
+        }
+
+        .shape-box {
+            width: 150px;
+            height: 150px;
+            background-color: #fff;
+            border: 2px solid #ff6f61;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .shape-box:hover {
+            transform: scale(1.05);
+        }
+
+        .shape-box img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .shape-box p {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to LKG Activities</h1>
+    <p>Exciting cards to help children learn through play!</p>
+
+    <div class="card-container">
+        <div class="card" onclick="showItems('alphabet')">
+            <img src="{% static 'images/alpha.jpeg' %}" alt="Alphabets">
+            <h2>Alphabets</h2>
+            <p>Learn ABC with sound and fun!</p>
+        </div>
+        <div class="card" onclick="showItems('uyir')">
+            <img src="{% static 'images/uyir.jpg' %}" alt="Uyir Eluthukal">
+            <h2>Uyir Eluthukal</h2>
+            <p>தமிழ் உயிர் எழுத்துகள் அறிந்துகொள்வோம்!</p>
+        </div>
+        <div class="card" onclick="showItems('mei')">
+            <img src="{% static 'images/mei.png' %}" alt="Mei Eluthukal">
+            <h2>Mei Eluthukal</h2>
+            <p>தமிழ் மெய் எழுத்துகள் சொல்லிக்கேளுங்கள்!</p>
+        </div>
+        <div class="card" onclick="showItems('numbers')">
+            <img src="{% static 'images/number.jpeg' %}" alt="Numbers">
+            <h2>Numbers</h2>
+            <p>Learn 1 to 20 with audio!</p>
+        </div>
+        <div class="card" onclick="showItems('shapes')">
+            <img src="{% static 'images/shapes.png' %}" alt="Shapes">
+            <h2>Shapes</h2>
+            <p>Circle, Square, Triangle & more!</p>
+        </div>
+    </div>
+
+    <div id="item-container"></div>
+
+    <script>
+        const content = {
+            alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
+            uyir: ["அ", "ஆ", "இ", "ஈ", "உ", "ஊ", "எ", "ஏ", "ஐ", "ஒ", "ஓ", "ஔ"],
+            mei: ["க்", "ங்", "ச்", "ஞ்", "ட்", "ண்", "த்", "ந்", "ப்", "ம்", "ய்", "ர்", "ல்", "வ்", "ழ்", "ள்", "ற்", "ன்"],
+            numbers: Array.from({ length: 20 }, (_, i) => (i + 1).toString()),
+            shapes: [
+                { name: "Circle", image: "{% static 'images/circle.png' %}" },
+                { name: "Square", image: "{% static 'images/square.jpeg' %}" },
+                { name: "Triangle", image: "{% static 'images/triangle.jpeg' %}" },
+                { name: "Rectangle", image: "{% static 'images/rectangle.png' %}" },
+                { name: "Star", image: "{% static 'images/star.jpeg' %}" },
+                { name: "Oval", image: "{% static 'images/oval.png' %}" },
+                { name: "Diamond", image: "{% static 'images/diamond.jpeg' %}" },
+                { name: "Heart", image: "{% static 'images/heart.png' %}" }
+            ]
+        };
+
+        function showItems(type) {
+            const container = document.getElementById("item-container");
+            container.innerHTML = "";
+
+            if (type === "shapes") {
+                content.shapes.forEach(shape => {
+                    const box = document.createElement("div");
+                    box.className = "shape-box";
+                    box.onclick = () => speak(shape.name);
+
+                    const img = document.createElement("img");
+                    img.src = shape.image;
+                    img.alt = shape.name;
+
+                    const label = document.createElement("p");
+                    label.innerText = shape.name;
+
+                    box.appendChild(img);
+                    box.appendChild(label);
+                    container.appendChild(box);
+                });
+            } else {
+                content[type].forEach(item => {
+                    const btn = document.createElement("button");
+                    btn.innerText = item;
+                    btn.className = "item-button";
+                    btn.onclick = () => speak(item);
+                    container.appendChild(btn);
+                });
+            }
+        }
+
+        function speak(text) {
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = /[அ-ஔஃ]/.test(text) ? "ta-IN" : "en-US";
+            window.speechSynthesis.speak(msg);
+        }
+    </script>
+</body>
+</html>

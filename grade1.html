@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grade 1 Activities</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fdf6e3;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2a4d69;
+            margin-top: 40px;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 200px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .draggable-word {
+            padding: 8px 12px;
+            background: #d4edda;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+            cursor: grab;
+        }
+
+        .drop-zone {
+            border: 2px dashed #aaa;
+            margin-top: 10px;
+            padding: 5px;
+            min-height: 20px;
+            border-radius: 5px;
+        }
+
+        .math-title {
+            font-weight: bold;
+            color: #444;
+            margin-top: 10px;
+        }
+
+        .math-desc {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Tamil - Match the Picture with the Word</h2>
+<div class="card-container">
+    <div class="card" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="{% static 'images/thaamarai.jpeg' %}" alt="Thaamarai">
+        <div id="t1" class="drop-zone"></div>
+    </div>
+    <div class="card" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="{% static 'images/kaalai.jpeg' %}" alt="Kaalai">
+        <div id="t2" class="drop-zone"></div>
+    </div>
+    <div class="card" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="{% static 'images/vazhai.jpeg' %}" alt="Vaazhai">
+        <div id="t3" class="drop-zone"></div>
+    </div>
+</div>
+
+<!-- Tamil Words -->
+<div style="margin-top: 20px; text-align: center;">
+    <span id="word1" draggable="true" ondragstart="drag(event)" class="draggable-word">தாமரை</span>
+    <span id="word2" draggable="true" ondragstart="drag(event)" class="draggable-word">காளை</span>
+    <span id="word3" draggable="true" ondragstart="drag(event)" class="draggable-word">வாழை</span>
+</div>
+
+<h2>English - Match the Picture with the Word</h2>
+<div class="card-container">
+    <div class="card" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="{% static 'images/apple.jpeg' %}" alt="Apple">
+        <div id="e1" class="drop-zone"></div>
+    </div>
+    <div class="card" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="{% static 'images/dog.jpeg' %}" alt="Dog">
+        <div id="e2" class="drop-zone"></div>
+    </div>
+    <div class="card" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="{% static 'images/ball.jpeg' %}" alt="Ball">
+        <div id="e3" class="drop-zone"></div>
+    </div>
+</div>
+
+<!-- English Words -->
+<div style="margin-top: 20px; text-align: center;">
+    <span id="word4" draggable="true" ondragstart="drag(event)" class="draggable-word" style="background: #cce5ff;">Apple</span>
+    <span id="word5" draggable="true" ondragstart="drag(event)" class="draggable-word" style="background: #cce5ff;">Dog</span>
+    <span id="word6" draggable="true" ondragstart="drag(event)" class="draggable-word" style="background: #cce5ff;">Ball</span>
+</div>
+
+<h2>Maths - Learn with Cards</h2>
+<div class="card-container">
+    <div class="card">
+        <a href="{% static 'images/math1.jpg' %}" target="_blank">
+            <img src="{% static 'images/math1.jpg' %}" alt="Math 1">
+        </a>
+        <div class="math-title">Table 1</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math2.jpg' %}" target="_blank">
+            <img src="{% static 'images/math2.jpg' %}" alt="Math 2">
+        </a>
+        <div class="math-title">Table 2</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math3.jpeg' %}" target="_blank">
+            <img src="{% static 'images/math3.jpeg' %}" alt="Math 3">
+        </a>
+        <div class="math-title">Table 3</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math4.jpeg' %}" target="_blank">
+            <img src="{% static 'images/math4.jpeg' %}" alt="Math 4">
+        </a>
+        <div class="math-title">Table 4</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math5.png' %}" target="_blank">
+            <img src="{% static 'images/math5.png' %}" alt="Math 5">
+        </a>
+        <div class="math-title">Table 5</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math6.png' %}" target="_blank">
+            <img src="{% static 'images/math6.png' %}" alt="Math 6">
+        </a>
+        <div class="math-title">Table 6</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math7.jpeg' %}" target="_blank">
+            <img src="{% static 'images/math7.jpeg' %}" alt="Math 7">
+        </a>
+        <div class="math-title">Table 7</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math8.jpeg' %}" target="_blank">
+            <img src="{% static 'images/math8.jpeg' %}" alt="Math 8">
+        </a>
+        <div class="math-title">Table 8</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math9.png' %}" target="_blank">
+            <img src="{% static 'images/math9.png' %}" alt="Math 9">
+        </a>
+        <div class="math-title">Table 9</div>
+    </div>
+    <div class="card">
+        <a href="{% static 'images/math10.jpeg' %}" target="_blank">
+            <img src="{% static 'images/math10.jpeg' %}" alt="Math 10">
+        </a>
+        <div class="math-title">Table 10</div>
+    </div>
+</div>
+
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var draggedElement = document.getElementById(data);
+        if (ev.target.childNodes.length === 0) {
+            ev.target.appendChild(draggedElement);
+        }
+    }
+</script>
+
+</body>
+</html>

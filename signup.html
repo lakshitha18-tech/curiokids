@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Account - CurioKids</title>
+    <style>
+        body {
+            background-image: url("{% static 'images/back1.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .signup-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
+        }
+        input, select {
+            margin: 10px 0;
+            padding: 10px;
+            width: 90%;
+            border: none;
+            border-radius: 10px;
+        }
+        button {
+            padding: 10px 25px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #f57c00;
+        }
+        .welcome-img {
+            width: 250px;
+            margin-bottom: 15px;
+        }
+        .login-link {
+            margin-top: 15px;
+            display: block;
+            font-size: 14px;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-box">
+        <img src="{% static 'images/study.jpeg' %}" class="welcome-img" alt="Welcome Image">
+        <h1>Create Account</h1>
+        <p style="font-size: 16px; margin-bottom: 20px;">
+            Welcome to <strong>CurioKids</strong> – a fun and interactive learning platform for curious young minds!
+            Parents and teachers can sign up to explore quizzes, puzzles, and more.
+        </p>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Enter Username" required><br>
+            <input type="password" name="password" placeholder="Enter Password" required><br>
+            <select name="user_type" required>
+                <option value="" disabled selected>Select User Type</option>
+                <option value="parent">Parent</option>
+                <option value="teacher">Teacher</option>
+            </select><br>
+            <button type="submit">Sign Up</button>
+        </form>
+        <a href="{% url 'login' %}" class="login-link">Already have an account? Log in here</a>
+    </div>
+</body>
+</html>

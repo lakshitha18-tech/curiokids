@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Child Details - CurioKids</title>
+    <style>
+        body {
+            background-image: url("/static/images/bg.jpg");
+            background-size: cover;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        input {
+            margin: 10px;
+            padding: 10px;
+            width: 250px;
+            border: none;
+            border-radius: 10px;
+        }
+        button {
+            padding: 10px 25px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h2>Enter Your Child's Details</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="child_name" placeholder="Child's Name" required><br>
+            <input type="number" name="age" placeholder="Child's Age" required><br>
+            <input type="text" name="grade" placeholder="Child's Grade (e.g., LKG, 1, 2)" required><br>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html>

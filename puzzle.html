@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CurioKids - Puzzle Time</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background-image: url("/static/images/back1.jpg");
+            background-size: cover;
+            background-position: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        #puzzle-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 850px;
+            margin: auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #ff4081;
+        }
+
+        
+
+        h2 {
+            color: #ff4081;
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .option {
+            width: 120px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            border-radius: 10px;
+            transition: transform 0.2s, border-color 0.3s;
+        }
+
+        .option:hover {
+            transform: scale(1.1);
+            border-color: #ff9800;
+        }
+
+        .option img {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .label {
+            margin-top: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #final-screen {
+            display: none;
+        }
+
+        #score-display {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ff4081;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {transform: scale(1);}
+            100% {transform: scale(15); opacity: 0;}
+        }
+
+        #progress, #live-score {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        #restart-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+            background-color: #ff9800;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🧩 Welcome to Puzzle Time!</h1>
+    <p style="font-size: 18px; color: #444;">Test your brain and learn with fun! Choose the correct picture for each question. Are you ready?</p>
+    
+    <div id="progress"></div>
+    <div id="live-score"></div>
+
+    <div id="puzzle-container">
+        <h2 id="question"></h2>
+        <div class="options-container" id="options"></div>
+    </div>
+
+    <div id="final-screen">
+        <h1>🎉 Congratulations! 🎉</h1>
+        <h2 id="score-display"></h2>
+        <div id="crackers"></div>
+        <button id="restart-button" onclick="restartPuzzle()">🔁 Play Again</button>
+    </div>
+
+    <script>
+        const puzzles = [
+            {
+                question: "I say meow and love milk. Who am I?",
+                options: [
+                    { img: "/static/images/dog.jpeg", label: "Dog" },
+                    { img: "/static/images/cat.jpeg", label: "Cat" },
+                    { img: "/static/images/rabbit.jpeg", label: "Rabbit" }
+                ],
+                answer: "Cat"
+            },
+            {
+                question: "I have a long trunk and big ears. Who am I?",
+                options: [
+                    { img: "/static/images/lion.jpeg", label: "Lion" },
+                    { img: "/static/images/elephant.jpeg", label: "Elephant" },
+                    { img: "/static/images/monkey.jpeg", label: "Monkey" }
+                ],
+                answer: "Elephant"
+            },
+            {
+                question: "I give you light at night. Who am I?",
+                options: [
+                    { img: "/static/images/sun.jpeg", label: "Sun" },
+                    { img: "/static/images/moon.jpeg", label: "Moon" },
+                    { img: "/static/images/star.jpeg", label: "Star" }
+                ],
+                answer: "Moon"
+            },
+            {
+                question: "I fly in the sky and chirp. Who am I?",
+                options: [
+                    { img: "/static/images/bird.jpeg", label: "Bird" },
+                    { img: "/static/images/butterfly.jpeg", label: "Butterfly" },
+                    { img: "/static/images/plane.jpeg", label: "Plane" }
+                ],
+                answer: "Bird"
+            },
+            {
+                question: "You read me to gain knowledge. Who am I?",
+                options: [
+                    { img: "/static/images/book.jpeg", label: "Book" },
+                    { img: "/static/images/pen.jpeg", label: "Pen" },
+                    { img: "/static/images/bag.jpeg", label: "Bag" }
+                ],
+                answer: "Book"
+            },
+            {
+                question: "I have four wheels and take you to school. Who am I?",
+                options: [
+                    { img: "/static/images/bike.jpg", label: "Bike" },
+                    { img: "/static/images/schoolbus.jpeg", label: "School Bus" },
+                    { img: "/static/images/train.jpeg", label: "Train" }
+                ],
+                answer: "School Bus"
+            }
+        ];
+
+        let current = 0;
+        let score = 0;
+
+        function showPuzzle() {
+            if (current < puzzles.length) {
+                const puzzle = puzzles[current];
+                document.getElementById("question").innerText = puzzle.question;
+
+                // Progress tracker
+                document.getElementById("progress").innerText = `Question ${current + 1} of ${puzzles.length}`;
+                document.getElementById("live-score").innerText = `Current Score: ${score}`;
+
+                const optionsDiv = document.getElementById("options");
+                optionsDiv.innerHTML = "";
+
+                puzzle.options.forEach(opt => {
+                    const div = document.createElement("div");
+                    div.className = "option";
+                    div.onclick = () => checkAnswer(opt.label);
+
+                    const img = document.createElement("img");
+                    img.src = opt.img;
+
+                    const label = document.createElement("div");
+                    label.className = "label";
+                    label.innerText = opt.label;
+
+                    div.appendChild(img);
+                    div.appendChild(label);
+                    optionsDiv.appendChild(div);
+                });
+            } else {
+                document.getElementById("puzzle-container").style.display = "none";
+                document.getElementById("final-screen").style.display = "block";
+                document.getElementById("score-display").innerText = `You scored ${score} out of ${puzzles.length}!`;
+                showFireworks();
+            }
+        }
+
+        function checkAnswer(selected) {
+            if (selected === puzzles[current].answer) {
+                score++;
+            }
+            current++;
+            showPuzzle();
+        }
+
+        function restartPuzzle() {
+            current = 0;
+            score = 0;
+            document.getElementById("final-screen").style.display = "none";
+            document.getElementById("puzzle-container").style.display = "block";
+            document.getElementById("crackers").innerHTML = "";
+            showPuzzle();
+        }
+
+        function showFireworks() {
+            const crackers = document.getElementById("crackers");
+            for (let i = 0; i < 30; i++) {
+                const fw = document.createElement("div");
+                fw.className = "firework";
+                fw.style.top = `${Math.random() * 100}%`;
+                fw.style.left = `${Math.random() * 100}%`;
+                crackers.appendChild(fw);
+            }
+        }
+
+        // Start the game
+        showPuzzle();
+    </script>
+</body>
+</html>

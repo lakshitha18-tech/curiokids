@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guess the Image | CurioKids</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        body {
+            background-image: url("{% static 'images/back1.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            text-align: center;
+            padding: 40px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #000000;
+        }
+
+        .game-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            margin: auto;
+            color: #000;
+        }
+
+        img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 10px;
+            font-size: 1.1em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .option-btn:hover {
+            background-color: #388E3C;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        #score {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #000;
+        }
+
+        #congrats {
+            display: none;
+            font-size: 2em;
+            color: rgb(14, 12, 1);
+        }
+
+        .firework {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-image: url("{% static 'images/cracker.gif' %}");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <h1>🕵️ Guess the Image!</h1>
+
+    <div class="game-container" id="game">
+        <img id="guess-image" src="" alt="Guess this image">
+        <div class="options" id="options-container"></div>
+        <div id="result"></div>
+        <div id="score">Score: 0 / 10</div>
+    </div>
+
+    <div id="congrats">
+        🎉 Congratulations! You completed the game! 🎆
+    </div>
+
+    <script>
+        const questions = [
+            { image: "{% static 'images/apple1.jpeg' %}", answer: "apple" },
+            { image: "{% static 'images/banana1.jpeg' %}", answer: "banana" },
+            { image: "{% static 'images/car1.jpeg' %}", answer: "car" },
+            { image: "{% static 'images/cat1.jpeg' %}", answer: "cat" },
+            { image: "{% static 'images/dog1.jpeg' %}", answer: "dog" },
+            { image: "{% static 'images/ball1.jpeg' %}", answer: "ball" },
+            { image: "{% static 'images/pen1.jpeg' %}", answer: "pen" },
+            { image: "{% static 'images/fish1.jpeg' %}", answer: "fish" },
+            { image: "{% static 'images/rose1.jpeg' %}", answer: "rose" },
+            { image: "{% static 'images/book1.jpeg' %}", answer: "book" }
+        ];
+
+        let current = 0;
+        let score = 0;
+
+        const guessImage = document.getElementById("guess-image");
+        const result = document.getElementById("result");
+        const scoreDisplay = document.getElementById("score");
+        const game = document.getElementById("game");
+        const congrats = document.getElementById("congrats");
+        const optionsContainer = document.getElementById("options-container");
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function loadQuestion() {
+            const question = questions[current];
+            guessImage.src = question.image;
+            result.innerHTML = "";
+
+            // Generate options
+            let options = [question.answer];
+            while (options.length < 4) {
+                let random = questions[Math.floor(Math.random() * questions.length)].answer;
+                if (!options.includes(random)) {
+                    options.push(random);
+                }
+            }
+
+            options = shuffle(options);
+
+            // Show buttons
+            optionsContainer.innerHTML = "";
+            options.forEach(opt => {
+                let btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = opt;
+                btn.onclick = () => checkGuess(opt);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkGuess(selected) {
+            const correctAnswer = questions[current].answer;
+
+            if (selected === correctAnswer) {
+                result.innerHTML = "✅ Correct!";
+                result.style.color = "green";
+                score++;
+            } else {
+                result.innerHTML = `❌ Wrong! It's "${correctAnswer}".`;
+                result.style.color = "red";
+            }
+
+            scoreDisplay.innerHTML = `Score: ${score} / 10`;
+
+            setTimeout(() => {
+                current++;
+                if (current < questions.length) {
+                    loadQuestion();
+                } else {
+                    showCongratulations();
+                }
+            }, 1200);
+        }
+
+        function showCongratulations() {
+            game.style.display = "none";
+            congrats.style.display = "block";
+            launchCrackers();
+        }
+
+        function launchCrackers() {
+            for (let i = 0; i < 20; i++) {
+                let firework = document.createElement("div");
+                firework.className = "firework";
+                firework.style.left = Math.random() * window.innerWidth + "px";
+                firework.style.top = Math.random() * window.innerHeight + "px";
+                document.body.appendChild(firework);
+                setTimeout(() => firework.remove(), 3000);
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

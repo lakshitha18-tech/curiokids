@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spelling Bee Game</title>
+    <style>
+        html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("{% static 'images/back1.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed; /* Optional: Keeps the background in place when scrolling */
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    color: #fff;
+    padding: 40px;
+}
+
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 0 15px #fff;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+        }
+
+        input, button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            background-color: #ffcc00;
+            color: #000;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #ff9900;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐝 Spelling Bee Game 🐝</h1>
+        <p>Click the speaker to hear the word. Type what you heard!</p>
+        <button onclick="speakWord()">🔊 Hear Word</button><br>
+        <input type="text" id="userInput" placeholder="Type the word...">
+        <button onclick="checkSpelling()">Submit</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const words = [
+    "elephant", "umbrella", "giraffe", "kangaroo", "butterfly",
+    "apple", "banana", "chocolate", "dinosaur", "eagle",
+    "flamingo", "grapes", "helicopter", "icecream", "jungle",
+    "koala", "lemonade", "monkey", "notebook", "octopus",
+    "penguin", "queen", "rainbow", "sunflower", "telescope",
+    "unicorn", "volcano", "whistle", "xylophone", "zebra"
+];
+
+        let currentWord = "";
+
+        function speakWord() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            const utterance = new SpeechSynthesisUtterance(currentWord);
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+        }
+
+        function checkSpelling() {
+            const userInput = document.getElementById("userInput").value.trim().toLowerCase();
+            const result = document.getElementById("result");
+            if (userInput === currentWord) {
+                result.textContent = "✅ Correct!";
+                result.style.color = "lightgreen";
+            } else {
+                result.textContent = `❌ Oops! The correct spelling was "${currentWord}".`;
+                result.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>

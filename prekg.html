@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pre-KG Rhymes</title>
+    <style>
+        body {
+            background-image: url("{% static 'images/back1.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        .card-container, .video-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 300px;
+            text-align: center;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            color: #2e8b57;
+        }
+
+        .description {
+            font-size: 1rem;
+            padding: 0 15px 20px;
+            color: #333;
+        }
+
+        .video-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .desc {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e8b57;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Pre-KG Rhymes</h1>
+
+<!-- Section 1: Cards -->
+<div id="cardSection" class="card-container">
+    <div class="card" onclick="showSection('english')">
+        <img src="{% static 'images/english.jpeg' %}" alt="English Rhymes">
+        <div class="title">English Rhymes</div>
+        <div class="description">Classic and catchy English rhymes for Pre-KG kids to sing along.</div>
+    </div>
+
+    <div class="card" onclick="showSection('tamil')">
+        <img src="{% static 'images/tamil.jpg' %}" alt="Tamil Rhymes">
+        <div class="title">Tamil Rhymes</div>
+        <div class="description">Joyful Tamil rhymes to learn culture and language with fun.</div>
+    </div>
+
+    <div class="card" onclick="showSection('math')">
+        <img src="{% static 'images/math.jpg' %}" alt="Math Rhymes">
+        <div class="title">Math Rhymes</div>
+        <div class="description">Exciting math rhymes to introduce numbers and counting.</div>
+    </div>
+</div>
+
+<!-- Section 2: Videos -->
+<div id="english" class="video-section hidden">
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/english1.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc">Twinkle Twinkle Little Star</div>
+    </div>
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/english2.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc">Baa Baa Black Sheep</div>
+    </div>
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/english3.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc">Humpty Dumpty</div>
+    </div>
+   
+</div>
+
+<div id="tamil" class="video-section hidden">
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/tamil1.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc">உருளைக் கிழங்கு செல்லக்குட்டி</div>
+    </div>
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/tamil2.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc">யானை வருது யானை வருது</div>
+    </div>
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/tamil3.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc"> குத்தடி குத்தடி கண்ணம்மா</div>
+    </div>
+   
+</div>
+
+<div id="math" class="video-section hidden">
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/math3.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc">add,sub Song</div>
+    </div>
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/math2.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc">Counting Rhymes</div>
+    </div>
+    <div class="video-card">
+        <video controls>
+            <source src="{% static 'videos/math1.mp4' %}" type="video/mp4">
+        </video>
+        <div class="desc">Shapes Song</div>
+    </div>
+    
+</div>
+
+<script>
+    function showSection(sectionId) {
+        document.getElementById("cardSection").classList.add("hidden");
+        document.getElementById("english").classList.add("hidden");
+        document.getElementById("tamil").classList.add("hidden");
+        document.getElementById("math").classList.add("hidden");
+
+        document.getElementById(sectionId).classList.remove("hidden");
+    }
+
+    function goBack() {
+        document.getElementById("english").classList.add("hidden");
+        document.getElementById("tamil").classList.add("hidden");
+        document.getElementById("math").classList.add("hidden");
+        document.getElementById("cardSection").classList.remove("hidden");
+    }
+</script>
+
+</body>
+</html>

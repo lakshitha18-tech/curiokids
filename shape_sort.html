@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shape Sort | CurioKids</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        body {
+            background-image: url("{% static 'images/back1.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            text-align: center;
+            padding: 40px;
+            color: #fc07cb;
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            margin: auto;
+            color: #000;
+        }
+
+        .shape {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background-color: red;
+        }
+
+        .square {
+            background-color: blue;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid green;
+            background-color: transparent;
+        }
+
+        .star {
+    width: 150px;
+    height: 150px;
+    background-color: transparent;
+    margin: 20px auto;
+    font-size: 120px;
+    line-height: 150px;
+    color: gold;
+}
+
+
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            font-size: 1.1em;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #388E3C;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        #score {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #000;
+        }
+
+        #congrats {
+            display: none;
+            font-size: 2em;
+            color: rgb(0, 0, 0);
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔺 Shape Sort Game!</h1>
+    <div class="game-container" id="game">
+        <div id="shape-container" class="shape"></div>
+        <input type="text" id="guess-input" placeholder="Enter shape name (e.g., circle)">
+        <br>
+        <button onclick="checkAnswer()">Submit</button>
+        <div id="result"></div>
+        <div id="score">Score: 0 / 5</div>
+    </div>
+    <div id="congrats">🎉 Congratulations! You completed the game! 🎉</div>
+
+    <script>
+        const shapes = [
+            { name: "circle", class: "circle", color: "red" },
+            { name: "square", class: "square", color: "blue" },
+            { name: "triangle", class: "triangle", color: "green" },
+            { name: "star", class: "star", color: "gold" }
+        ];
+
+        let currentRound = 0;
+        let score = 0;
+        const totalRounds = 4;
+        let usedShapes = [];
+
+        const shapeContainer = document.getElementById("shape-container");
+        const result = document.getElementById("result");
+        const scoreDisplay = document.getElementById("score");
+        const game = document.getElementById("game");
+        const congrats = document.getElementById("congrats");
+        const input = document.getElementById("guess-input");
+
+        function loadShape() {
+            shapeContainer.innerHTML = "";
+            input.value = "";
+            result.innerHTML = "";
+
+            let availableShapes = shapes.filter(s => !usedShapes.includes(s.name));
+            if (availableShapes.length === 0) usedShapes = [], availableShapes = [...shapes];
+
+            const shape = availableShapes[Math.floor(Math.random() * availableShapes.length)];
+            usedShapes.push(shape.name);
+
+            shapeContainer.setAttribute("data-correct", shape.name);
+
+            const div = document.createElement("div");
+            div.className = `shape ${shape.class}`;
+            if (shape.class !== "triangle" && shape.class !== "star") {
+                div.style.backgroundColor = shape.color;
+            } else if (shape.class === "star") {
+                div.innerHTML = "★";
+            }
+
+            shapeContainer.appendChild(div);
+        }
+
+        function checkAnswer() {
+            const userGuess = input.value.trim().toLowerCase();
+            const correct = shapeContainer.getAttribute("data-correct");
+
+            if (userGuess === correct) {
+                result.innerHTML = "✅ Correct!";
+                result.style.color = "green";
+                score++;
+            } else {
+                result.innerHTML = `❌ Wrong! It was "${correct}".`;
+                result.style.color = "red";
+            }
+
+            scoreDisplay.innerText = `Score: ${score} / ${totalRounds}`;
+            currentRound++;
+
+            setTimeout(() => {
+                if (currentRound < totalRounds) {
+                    loadShape();
+                } else {
+                    showCongrats();
+                }
+            }, 1000);
+        }
+
+        function showCongrats() {
+            game.style.display = "none";
+            congrats.style.display = "block";
+        }
+
+        loadShape();
+    </script>
+</body>
+</html>

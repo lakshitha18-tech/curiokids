@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Grade - CurioKids</title>
+    <style>
+        body {
+            background-image: url("/static/images/back1.jpg");
+            background-size: cover;
+            background-position: center;
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #ff9800;
+            font-size: 42px;
+            margin-bottom: 40px;
+        }
+
+        .grade-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .grade-card {
+            background-color: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 20px;
+            width: 240px;
+            height: 320px;
+            font-size: 18px;
+            color: #3f51b5;
+            cursor: pointer;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .grade-card:hover {
+            transform: scale(1.05);
+            background-color: #e1f5fe;
+        }
+
+        .grade-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .grade-card h2 {
+            margin: 10px 0 5px;
+            font-size: 22px;
+        }
+
+        .grade-card p {
+            font-size: 16px;
+            color: #444;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose Your Grade</h1>
+    <div class="grade-container">
+        <a href="{% url 'prekg' %}">
+            <div class="grade-card">
+                <img src="/static/images/pre.jpeg" alt="Pre-KG">
+                <h2>Pre-KG</h2>
+                <p>Fun activities to start the learning journey.</p>
+            </div>
+        </a>
+        <a href="{% url 'lkg' %}">
+            <div class="grade-card">
+                <img src="/static/images/lkg.jpeg" alt="LKG">
+                <h2>LKG</h2>
+                <p>Interactive lessons to build basics.</p>
+            </div>
+        </a>
+        <a href="{% url 'ukg' %}">
+            <div class="grade-card">
+                <img src="/static/images/ukg.jpeg" alt="UKG">
+                <h2>UKG</h2>+
+                <p>Play and learn with exciting challenges.</p>
+            </div>
+        </a>
+        <a href="{% url 'grade1' %}">
+            <div class="grade-card">
+                <img src="/static/images/grade1.jpeg" alt="Grade 1">
+                <h2>Grade 1</h2>
+                <p>Build curiosity and problem-solving skills.</p>
+            </div>
+        
+    </div>
+</body>
+</html>

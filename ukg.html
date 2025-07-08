@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UKG Learning - Animals & Nature</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{% static 'images/back1.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            text-align: center;
+            padding: 50px;
+            color: #333;
+        }
+
+        h1 {
+            color: #ff6f61;
+            font-size: 36px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            color: #ff6f61;
+            margin: 10px 0 5px 0;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        #item-container {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .item-card {
+            width: 150px;
+            background-color: #fffbe6;
+            border-radius: 12px;
+            padding: 10px;
+            border: 2px solid #ff6f61;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .item-card:hover {
+            transform: scale(1.05);
+        }
+
+        .item-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .item-card p {
+            margin: 8px 0 0;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Explore Nature & Animals</h1>
+    <p>Click each card to learn and hear names!</p>
+
+    <div class="card-container">
+        <div class="card" onclick="showItems('domestic')">
+            <img src="{% static 'images/domestic.jpg' %}" alt="Domestic Animals">
+            <h2>Domestic Animals</h2>
+            <p>Animals around our homes</p>
+        </div>
+        <div class="card" onclick="showItems('wild')">
+            <img src="{% static 'images/wild.jpeg' %}" alt="Wild Animals">
+            <h2>Wild Animals</h2>
+            <p>Animals in the forest</p>
+        </div>
+        <div class="card" onclick="showItems('birds')">
+            <img src="{% static 'images/birds.jpg' %}" alt="Birds">
+            <h2>Birds</h2>
+            <p>Colorful flying creatures</p>
+        </div>
+        <div class="card" onclick="showItems('insects')">
+            <img src="{% static 'images/insects.jpeg' %}" alt="Insects">
+            <h2>Insects</h2>
+            <p>Tiny creatures all around</p>
+        </div>
+        <div class="card" onclick="showItems('fruits')">
+            <img src="{% static 'images/fruits.jpeg' %}" alt="Fruits">
+            <h2>Fruits</h2>
+            <p>Sweet and juicy treats</p>
+        </div>
+        <div class="card" onclick="showItems('vegetables')">
+            <img src="{% static 'images/vegetable.jpeg' %}" alt="Vegetables">
+            <h2>Vegetables</h2>
+            <p>Healthy and green friends</p>
+        </div>
+    </div>
+
+    <div id="item-container"></div>
+
+    <script>
+        const items = {
+            domestic: [
+                { name: "Cow", img: "{% static 'images/cow.jpeg' %}" },
+                { name: "Dog", img: "{% static 'images/dog.jpeg' %}" },
+                { name: "Cat", img: "{% static 'images/cat.jpeg' %}" },
+                { name: "Goat", img: "{% static 'images/goat.jpeg' %}" },
+                { name: "Horse", img: "{% static 'images/horse.jpeg' %}" },
+                
+                { name: "Hen", img: "{% static 'images/hen.jpeg' %}" },
+                { name: "Duck", img: "{% static 'images/duck.jpeg' %}" }
+            ],
+            wild: [
+                { name: "Lion", img: "{% static 'images/lion.jpeg' %}" },
+                { name: "Tiger", img: "{% static 'images/tiger.jpeg' %}" },
+                { name: "Elephant", img: "{% static 'images/elephant.jpeg' %}" },
+                { name: "Zebra", img: "{% static 'images/zebra.jpeg' %}" },
+                { name: "Giraffe", img: "{% static 'images/giraffe.jpeg' %}" },
+                { name: "Bear", img: "{% static 'images/bear.jpeg' %}" },
+                { name: "Wolf", img: "{% static 'images/wolf.jpeg' %}" },
+                
+            ],
+            birds: [
+                { name: "Peacock", img: "{% static 'images/peacock.jpeg' %}" },
+                { name: "Parrot", img: "{% static 'images/parrot.jpeg' %}" },
+                { name: "Sparrow", img: "{% static 'images/sparrow.jpeg' %}" },
+                { name: "Crow", img: "{% static 'images/crow.jpeg' %}" },
+                { name: "Owl", img: "{% static 'images/owl.jpeg' %}" },
+             
+                { name: "Eagle", img: "{% static 'images/eagle.jpeg' %}" }
+            ],
+            insects: [
+                { name: "Ant", img: "{% static 'images/ant.jpeg' %}" },
+                { name: "Bee", img: "{% static 'images/bee.jpeg' %}" },
+                { name: "Butterfly", img: "{% static 'images/butterfly.jpeg' %}" },
+                { name: "Mosquito", img: "{% static 'images/mosquito.jpeg' %}" },
+                { name: "Fly", img: "{% static 'images/fly.jpeg' %}" },
+                { name: "Dragonfly", img: "{% static 'images/dragonfly.jpeg' %}" },
+                
+            ],
+            fruits: [
+                { name: "Apple", img: "{% static 'images/apple.jpeg' %}" },
+                { name: "Banana", img: "{% static 'images/banana.jpeg' %}" },
+                { name: "Orange", img: "{% static 'images/orange.jpeg' %}" },
+                { name: "Mango", img: "{% static 'images/mango.jpeg' %}" },
+                { name: "Grapes", img: "{% static 'images/grapes.jpeg' %}" },
+                
+                { name: "Strawberry", img: "{% static 'images/strawberry.jpeg' %}" }
+            ],
+            vegetables: [
+                { name: "Carrot", img: "{% static 'images/carrot.jpeg' %}" },
+                { name: "Potato", img: "{% static 'images/potato.jpeg' %}" },
+                { name: "Tomato", img: "{% static 'images/tomato.jpeg' %}" },
+                { name: "Onion", img: "{% static 'images/onion.jpeg' %}" },
+                { name: "Brinjal", img: "{% static 'images/brinjal.jpeg' %}" },
+                { name: "Cabbage", img: "{% static 'images/cabbage.jpeg' %}" },
+                
+            ]
+        };
+
+        function showItems(type) {
+            const container = document.getElementById("item-container");
+            container.innerHTML = "";
+
+            items[type].forEach(item => {
+                const div = document.createElement("div");
+                div.className = "item-card";
+                div.onclick = () => speak(item.name);
+
+                const img = document.createElement("img");
+                img.src = item.img;
+                img.alt = item.name;
+
+                const label = document.createElement("p");
+                label.innerText = item.name;
+
+                div.appendChild(img);
+                div.appendChild(label);
+                container.appendChild(div);
+            });
+        }
+
+        function speak(text) {
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = "en-US";
+            window.speechSynthesis.speak(msg);
+        }
+    </script>
+</body>
+</html>

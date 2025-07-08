@@ -1,0 +1,215 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Match | CurioKids</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive;
+            height: 100%;
+            background-image: url("{% static 'images/back1.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            text-align: center;
+            color: #fff;
+            box-sizing: border-box;
+            padding: 40px;
+        }
+
+        .game-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            margin: auto;
+            color: #000;
+        }
+
+        h1 {
+            color: #FF69B4;
+            font-size: 2.5em;
+        }
+
+        .color-box {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            border-radius: 15px;
+            border: 3px solid #000;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            padding: 12px;
+            font-size: 1.1em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .option-btn:hover {
+            background-color: #388E3C;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        #score {
+            margin-top: 15px;
+            font-size: 1.2em;
+            color: #000;
+        }
+
+        #congrats {
+            display: none;
+            font-size: 2em;
+            color: rgb(0, 0, 0);
+            margin-top: 30px;
+        }
+
+        .firework {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+           
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Match the Color!</h1>
+
+    <div class="game-container" id="game">
+        <div class="color-box" id="color-box"></div>
+        <div class="options" id="options-container"></div>
+        <div id="result"></div>
+        <div id="score">Score: 0 / 10</div>
+    </div>
+
+    <div id="congrats">
+        🎉 Congratulations! You sucessfully finished this game! 🎆
+    </div>
+
+    <script>
+        const questions = [
+            { color: "red" },
+            { color: "blue" },
+            { color: "green" },
+            { color: "yellow" },
+            { color: "orange" },
+            { color: "purple" },
+            { color: "pink" },
+            { color: "brown" },
+            { color: "black" },
+            { color: "gray" }
+        ];
+
+        let current = 0;
+        let score = 0;
+
+        const colorBox = document.getElementById("color-box");
+        const result = document.getElementById("result");
+        const scoreDisplay = document.getElementById("score");
+        const optionsContainer = document.getElementById("options-container");
+        const game = document.getElementById("game");
+        const congrats = document.getElementById("congrats");
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function loadQuestion() {
+            const question = questions[current];
+            colorBox.style.backgroundColor = question.color;
+
+            let options = [question.color];
+            while (options.length < 4) {
+                const rand = questions[Math.floor(Math.random() * questions.length)].color;
+                if (!options.includes(rand)) {
+                    options.push(rand);
+                }
+            }
+
+            options = shuffle(options);
+
+            optionsContainer.innerHTML = "";
+            options.forEach(opt => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(opt);
+                optionsContainer.appendChild(btn);
+            });
+
+            result.innerHTML = "";
+        }
+
+        function checkAnswer(selected) {
+            const correct = questions[current].color;
+
+            if (selected === correct) {
+                result.innerHTML = "✅ Correct!";
+                result.style.color = "green";
+                score++;
+            } else {
+                result.innerHTML = `❌ Oops! It was "${correct}".`;
+                result.style.color = "red";
+            }
+
+            scoreDisplay.innerHTML = `Score: ${score} / 10`;
+
+            setTimeout(() => {
+                current++;
+                if (current < questions.length) {
+                    loadQuestion();
+                } else {
+                    showCongratulations();
+                }
+            }, 1200);
+        }
+
+        function showCongratulations() {
+            game.style.display = "none";
+            congrats.style.display = "block";
+            launchCrackers();
+        }
+
+        function launchCrackers() {
+            for (let i = 0; i < 25; i++) {
+                let cracker = document.createElement("div");
+                cracker.className = "firework";
+                cracker.style.left = Math.random() * window.innerWidth + "px";
+                cracker.style.top = Math.random() * window.innerHeight + "px";
+                document.body.appendChild(cracker);
+                setTimeout(() => cracker.remove(), 3000);
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
